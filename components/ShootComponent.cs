@@ -57,7 +57,7 @@ public partial class ShootComponent : Node
         }
 
         // Стреляем, только если есть цель и прошло нужное время
-        if (target != null && _TimeSinceLastShot >= _FireRate)
+        if (GodotObject.IsInstanceValid(target) && _TimeSinceLastShot >= _FireRate)
         {
             Shoot(target);
             _TimeSinceLastShot = 0f;
@@ -106,32 +106,7 @@ public partial class ShootComponent : Node
     // Создаёт пулю и задаёт ей направление движения.
     private void Shoot(Node3D target)
     {
-        if (_BulletScene == null)
-        {
-            GD.PushWarning("пули нет");
-            return;
-        }
-
-        Node instance = _BulletScene.Instantiate();
-        if (instance is not Bullet bullet)
-        {
-            instance.QueueFree();
-            return;
-        }
-        GetTree().CurrentScene.AddChild(bullet);
-
-        // Пуля появляется у башни и летит к цели.
-        bullet.GlobalPosition = _Muzzel.GlobalPosition;
-
-        Vector3 direction =
-            (target.GlobalPosition - _Muzzel.GlobalPosition).Normalized();
-
-        bullet.Initialize(
-            direction,
-            _BulletSpeed,
-            _BulletDamage,
-            target
-        );
+        ShootAtPosition(target.GlobalPosition);
     }
     // Выполняет выстрел в указанную точку мира.
     public void ShootAtPosition(Vector3 targetPosition)
@@ -150,5 +125,11 @@ public partial class ShootComponent : Node
 
         // Создаём экземпляр пули.
         Bullet bullet = _BulletScene.Instantiate<Bullet>();
+        GetTree().CurrentScene.AddChild(bullet);
+        bullet.GlobalPosition = _Muzzel.GlobalPosition;
+
+        Vector3 direction = (targetPosition - _Muzzel.GlobalPosition).Normalized();
+        bullet.Initialize(direction, _BulletSpeed, _BulletDamage, _Parent);
+        _TimeSinceLastShot = 0f;
     }
 }
