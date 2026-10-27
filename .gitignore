@@ -1,0 +1,16 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# .NET build output and editor caches
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+
+# Local credentials and environment settings
+.env
+.env.*
+!.env.example

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://d14f3kmu86pf4"]
+
+[ext_resource type="Script" uid="uid://clnc32lwk2ww" path="res://scripts/Bullet.cs" id="1_hf8mt"]
+[ext_resource type="Script" uid="uid://dbteg5qjylwmw" path="res://components/DamagingComponent.cs" id="2_p1sfj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ropf"]
+albedo_color = Color(0.7407203, 0.15852827, 9.62615e-08, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_2ropf")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_recie"]
+radius = 0.18408203
+height = 0.36816406
+
+[node name="Bullet" type="Area3D" unique_id=1310669387]
+script = ExtResource("1_hf8mt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1255901863]
+transform = Transform3D(0.33556557, 0, 0, 0, 0.11162049, 0, 0, 0, 0.1414334, 0, 0, 0)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=17597451]
+shape = SubResource("CapsuleShape3D_recie")
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=1073285390]
+script = ExtResource("2_p1sfj")
+metadata/_custom_type_script = "uid://dbteg5qjylwmw"

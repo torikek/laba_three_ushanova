@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://0iv4hld3571"]
+
+[ext_resource type="Script" uid="uid://bd5idjdhfjvbr" path="res://scripts/Tower.cs" id="1_02lgm"]
+[ext_resource type="Script" uid="uid://ckj0yi0ufgt1y" path="res://components/HealthComponent.cs" id="1_kl3vk"]
+[ext_resource type="Script" uid="uid://1x66mxrb6jsu" path="res://components/ShootComponent.cs" id="3_02lgm"]
+[ext_resource type="Script" uid="uid://dmttguf7c2d4k" path="res://components/VisibilityComponent.cs" id="4_6dv47"]
+[ext_resource type="Script" uid="uid://4882jq4ir2e5" path="res://components/MoveComponent.cs" id="5_6pmem"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yfr1v"]
+height = 2.9074707
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_recie"]
+albedo_color = Color(0.57596666, 0.997559, 0.64747894, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_recie")
+top_radius = 0.15
+height = 1.1494141
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dv47"]
+albedo_color = Color(0.5545526, 0.7754049, 0.6253944, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_6dv47")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bmg02"]
+albedo_color = Color(0.4, 0.5803922, 0.49803922, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_bmg02")
+radius = 0.44677734
+height = 0.8935547
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yfr1v"]
+radius = 17.39461
+
+[node name="Tower" type="CharacterBody3D" unique_id=818221630]
+script = ExtResource("1_02lgm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=782759534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45373535, 0)
+shape = SubResource("CapsuleShape3D_yfr1v")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=201468021]
+transform = Transform3D(0.09684384, 0, 0.9952995, 0, 1, 0, -0.9952995, 0, 0.09684384, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=946446513]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5413771, 0)
+mesh = SubResource("CylinderMesh_yfr1v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=541945303]
+transform = Transform3D(0.47835162, 0, 0, 0, 0.481627, 0, 0, 0, 0.55100155, 0, 1.3121138, 0)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D" unique_id=2053097964]
+transform = Transform3D(-6.867321e-09, 0.85326374, 0, -0.157106, -3.729734e-08, 0, 0, 0, 0.17921287, 0.43131733, 1.3006212, 0)
+mesh = SubResource("CapsuleMesh_yfr1v")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1786546667]
+script = ExtResource("1_kl3vk")
+metadata/_custom_type_script = "uid://ckj0yi0ufgt1y"
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=293940320 node_paths=PackedStringArray("_DetectionShape", "ShootComponent")]
+collision_layer = 2
+script = ExtResource("4_6dv47")
+_DetectionShape = NodePath("CollisionShape3D")
+ShootComponent = NodePath("../ShootComponent")
+metadata/_custom_type_script = "uid://dmttguf7c2d4k"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=151557096]
+shape = SubResource("SphereShape3D_yfr1v")
+
+[node name="ShootComponent" type="Node" parent="." unique_id=676052607]
+script = ExtResource("3_02lgm")
+metadata/_custom_type_script = "uid://1x66mxrb6jsu"
+
+[node name="Muzzel" type="Marker3D" parent="." unique_id=2108335498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016794801, 1.3351891, 0)
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1969243423]
+script = ExtResource("5_6pmem")
+metadata/_custom_type_script = "uid://4882jq4ir2e5"
