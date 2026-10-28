@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://0iv4hld3571" path="res://scenes/Tower.tscn" id="2_hcwga"]
 [ext_resource type="PackedScene" uid="uid://pi00vt55ub5q" path="res://scenes/Player.tscn" id="3_l06dd"]
 [ext_resource type="PackedScene" uid="uid://cy7hkql0jy2rq" path="res://scenes/Core.tscn" id="4_4e7eh"]
+[ext_resource type="PackedScene" uid="uid://buhk8tua5nhog" path="res://scenes/Crawler.tscn" id="6_sl3ph"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2pk6w"]
 albedo_color = Color(1.3235956e-06, 0.5362356, 0.29885167, 1)
@@ -44,30 +45,33 @@ mesh = SubResource("PlaneMesh_yfr1v")
 environment = SubResource("Environment_recie")
 
 [node name="EnemyTower" parent="." unique_id=1287733602 instance=ExtResource("1_2pk6w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.06182, 0.4201305, 1.1941633)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.006845, 0.4201305, 0.9283924)
 
 [node name="EnemyTower2" parent="." unique_id=2007950560 instance=ExtResource("1_2pk6w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.268215, 0, 9.3719)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.268215, 0, 0.9433074)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1040618179]
-transform = Transform3D(1, 0, 0, 0, 0.82817864, 0.56046426, 0, -0.56046426, 0.82817864, 0, 5.699197, 9.220771)
+transform = Transform3D(-0.9995599, 0.013790133, -0.026266329, -0.020218028, 0.33127657, 0.94331706, 0.021709887, 0.943433, -0.33085194, 0, 13.788734, -7.9327583)
 current = true
 fov = 90.45598
 
 [node name="Tower" parent="." unique_id=818221630 instance=ExtResource("2_hcwga")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1802998, 0, -7.2993484)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.237197, 1.9073486e-06, -11.132607)
+
+[node name="Tower4" parent="." unique_id=654033614 instance=ExtResource("2_hcwga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.903241, 0, -11.081488)
 
 [node name="Tower2" parent="." unique_id=1628924491 instance=ExtResource("2_hcwga")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.556134)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5264843, 0, -6.914021)
 
 [node name="Tower3" parent="." unique_id=714541956 instance=ExtResource("2_hcwga")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.915461, 0, -1.1637549)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3418322, 0, -6.5950418)
 
 [node name="Player" parent="." unique_id=2130547119 instance=ExtResource("3_l06dd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.894396)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.4174385, 0, -6.7128)
 
 [node name="Core" parent="." unique_id=1086187683 instance=ExtResource("4_4e7eh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30165744, 0.53847873, 0.056119144)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30165744, 0.53847873, -10.089075)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1096302778]
 process_mode = 3
@@ -102,3 +106,12 @@ vertical_alignment = 1
 [node name="Button" type="Button" parent="CanvasLayer/GameOverPanel/VBoxContainer" unique_id=441285712]
 layout_mode = 2
 text = "Restart"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1610282331]
+transform = Transform3D(1, 0, 0, 0, -0.65857285, 0.752517, 0, -0.752517, -0.65857285, 0, 10.305641, -7.9487596)
+
+[node name="Crawler" parent="." unique_id=604706162 instance=ExtResource("6_sl3ph")]
+transform = Transform3D(-0.058754247, 0, -0.9982725, 0, 1, 0, 0.9982725, 0, -0.058754247, 14.516058, 0, -7.9359694)
+
+[node name="Crawler2" parent="." unique_id=800558469 instance=ExtResource("6_sl3ph")]
+transform = Transform3D(0.15208195, 0, 0.9883679, 0, 1, 0, -0.9883679, 0, 0.15208195, -14.239181, -9.536743e-07, -7.5907946)

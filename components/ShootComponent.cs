@@ -6,7 +6,7 @@ using Godot;
 public partial class ShootComponent : Node
 {
     [Export]
-    private float _FireRate = 0.25f; // Интервал между выстрелами 
+    private float _FireRate = 0.4f; // Интервал между выстрелами 
 
     [Export]
     private float _BulletSpeed = 10f; // Скорость полета пули

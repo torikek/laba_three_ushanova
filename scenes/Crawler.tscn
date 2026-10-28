@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://buhk8tua5nhog"]
+
+[ext_resource type="Script" uid="uid://dmttguf7c2d4k" path="res://components/VisibilityComponent.cs" id="1_ehiuf"]
+[ext_resource type="Script" uid="uid://ckj0yi0ufgt1y" path="res://components/HealthComponent.cs" id="2_djywa"]
+[ext_resource type="Script" uid="uid://4882jq4ir2e5" path="res://components/MoveComponent.cs" id="3_5cvny"]
+[ext_resource type="Script" uid="uid://dbteg5qjylwmw" path="res://components/DamagingComponent.cs" id="4_w5vi2"]
+[ext_resource type="Shader" uid="uid://bt5ej6srgty7o" path="res://scenes/Crawler.gdshader" id="5_ehiuf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rxsjc"]
+height = 5.53125
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ehiuf"]
+radius = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yfr1v"]
+radius = 0.65
+height = 5.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7dldg"]
+render_priority = 0
+shader = ExtResource("5_ehiuf")
+shader_parameter/bend_1 = 0.8
+shader_parameter/bend_2 = -0.8
+shader_parameter/body_color = Color(0.6879353, 0, 0.10985162, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f6n6q"]
+material = SubResource("ShaderMaterial_7dldg")
+radius = 0.3
+height = 3.0
+radial_segments = 32
+rings = 32
+
+[node name="Crawler" type="CharacterBody3D" unique_id=604706162 groups=["enemies"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1162370644]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.36067438)
+shape = SubResource("CapsuleShape3D_rxsjc")
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=1373009688 node_paths=PackedStringArray("MoveComponent")]
+script = ExtResource("1_ehiuf")
+MoveComponent = NodePath("../MoveComponent")
+metadata/_custom_type_script = "uid://dmttguf7c2d4k"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=475383534]
+transform = Transform3D(1, 0, 0, 0, 0.009916338, 0.9999508, 0, -0.9999508, 0.009916338, 0, 0, 0)
+shape = SubResource("SphereShape3D_ehiuf")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=838481590]
+script = ExtResource("2_djywa")
+metadata/_custom_type_script = "uid://ckj0yi0ufgt1y"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=918417464]
+script = ExtResource("3_5cvny")
+metadata/_custom_type_script = "uid://4882jq4ir2e5"
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=772666911]
+script = ExtResource("4_w5vi2")
+_damage = 100.0
+_targetGroups = Array[String](["allies"])
+_damageOnContact = true
+metadata/_custom_type_script = "uid://dbteg5qjylwmw"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=803653429]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_yfr1v")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=856322107]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=2040944711]
+transform = Transform3D(-4.3711392e-08, 0, 1, 0.86843276, 0.49580723, 3.7960397e-08, -0.4958073, 0.86843264, -2.1672422e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_f6n6q")
