@@ -6,7 +6,7 @@ using Godot;
 public partial class ShootComponent : Node
 {
     [Export]
-    private float _FireRate = 0.5f; // Интервал между выстрелами 
+    private float _FireRate = 0.25f; // Интервал между выстрелами 
 
     [Export]
     private float _BulletSpeed = 10f; // Скорость полета пули
@@ -39,14 +39,16 @@ public partial class ShootComponent : Node
 
     public override void _Process(double delta)
     {
-        if (!GodotObject.IsInstanceValid(_Parent))
+        if (!GodotObject.IsInstanceValid(_Parent)) // Проверяем, что родительский узел всё ещё действителен
         {
             return;
         }
+
         // Считаем время, прошедшее после предыдущего выстрела
         _TimeSinceLastShot += (float)delta;
         if (target != null && GodotObject.IsInstanceValid(target))
         {
+            // Поворачиваем башню к цели
             Vector3 targetPosition = new Vector3(
                 target.GlobalPosition.X,
                 _Parent.GlobalPosition.Y,
@@ -64,51 +66,15 @@ public partial class ShootComponent : Node
         }
     }
 
-    // Находит ближайшего противника в пределах дальности стрельбы.
-    private Node3D FindClosestTarget()
-    {
-        string targetGroup;
-            if (_Parent.IsInGroup("allies"))
-            {
-                targetGroup = "enemies";
-            }
-            else
-            {
-                targetGroup = "allies";
-            }
-
-        Node3D closestTarget = null;
-        float closestDistance = _ShootRange;
-
-        foreach (Node node in GetTree().GetNodesInGroup(targetGroup))
-        {
-            if (node is not Node3D target)
-            {
-                continue;
-            }
-
-            float distance = _Muzzel.GlobalPosition.DistanceTo(
-                target.GlobalPosition
-            );
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestTarget = target;
-            }
-        }
-
-        return closestTarget;
-    }
+    // Переменная, которая хранит сцену пули
     [Export]
     private PackedScene _BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn"); //загрузка пули
 
-    // Создаёт пулю и задаёт ей направление движения.
+    // Метод для стрельбы по цели
     private void Shoot(Node3D target)
     {
         ShootAtPosition(target.GlobalPosition);
     }
-    // Выполняет выстрел в указанную точку мира.
     public void ShootAtPosition(Vector3 targetPosition)
     {
         // Проверяем, прошло ли достаточно времени после выстрела.
@@ -128,6 +94,7 @@ public partial class ShootComponent : Node
         GetTree().CurrentScene.AddChild(bullet);
         bullet.GlobalPosition = _Muzzel.GlobalPosition;
 
+        // Вычисляем направление движения пули.
         Vector3 direction = (targetPosition - _Muzzel.GlobalPosition).Normalized();
         bullet.Initialize(direction, _BulletSpeed, _BulletDamage, _Parent);
         _TimeSinceLastShot = 0f;

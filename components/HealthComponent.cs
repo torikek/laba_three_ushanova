@@ -1,41 +1,70 @@
 using Godot;
-using System;
 
+// Хранит здоровье объекта и сообщает о его смерти.
 [GlobalClass]
 public partial class HealthComponent : Node
 {
-    private Node3D parentNode;
+    [Signal]
+    public delegate void DiedEventHandler();
+
     [Export]
-    protected float MaxHealth = 100f;
-    protected float CurrentHealth {get;set;}
+    public float MaxHealth { get; set; } = 100f;
+
+    public float CurrentHealth { get; private set; }
+
+    public bool IsDead { get; private set; }
+
+    private Node3D _parent;
 
     public override void _Ready()
     {
-        parentNode = GetParent<Node3D>();
+        _parent = GetParent<Node3D>();
+
+        MaxHealth = Mathf.Max(1f, MaxHealth);
         CurrentHealth = MaxHealth;
     }
 
-    public void TakeDamage(float damage) // Получение урона
+    // Повторные попадания по уже погибшему объекту игнорируются.
+    public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
-        if (CurrentHealth <=0f)
-        {
-            Die();
-        }
-    }
-    // Восстанавливает здоровье, но не выше максимального значения
-    public void Heal(float amount)
-    {
-        if (amount <= 0f || CurrentHealth <= 0f)
+        if (IsDead || damage <= 0f)
         {
             return;
         }
 
-        CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+        CurrentHealth = Mathf.Max(0f, CurrentHealth - damage);
+
+        if (CurrentHealth <= 0f)
+        {
+            Die();
+        }
     }
-    private void Die() //удаляем объект после 0 здоровья
+
+    public void Heal(float amount)
     {
-        GD.Print("die!");
-        parentNode.QueueFree();
+        if (IsDead || amount <= 0f)
+        {
+            return;
+        }
+
+        CurrentHealth = Mathf.Min(
+            CurrentHealth + amount,
+            MaxHealth
+        );
+    }
+
+    private void Die()
+    {
+        if (IsDead)
+        {
+            return;
+        }
+
+        IsDead = true;
+
+        // Сначала уведомляем, затем удаляем объект.
+        EmitSignal(SignalName.Died);
+
+        _parent.QueueFree();
     }
 }

@@ -1,106 +1,137 @@
-
 using Godot;
-using System;
 
+// Общие правила попадания и урона для снарядов, контактных врагов и эффектов.
 [GlobalClass]
 public partial class DamagingComponent : Area3D
 {
-    // Количество урона, наносимого за одно попадание.
     [Export]
-    private float _Damage = 10f;
+    private float _damage = 10f;
 
-    // Группы объектов, которым разрешено наносить урон.
     [Export]
-    private Godot.Collections.Array<string> _TargetGroups = new();
+    private Godot.Collections.Array<string> _targetGroups = new();
 
-    // Если true, компонент сам наносит урон при столкновении.
-    // Для пули оставляем false, так как попадание обрабатывает Bullet.
     [Export]
-    private bool _DamageOnContact = false;
+    private bool _damageOnContact = false;
 
-    // Список идентификаторов объектов, уже получивших контактный урон.
-    private Godot.Collections.Array<ulong> _DamagedTargets = new();
+    [Export]
+    private bool _destroySourceAfterHit = true;
+
+    private Node _source;
+    private Node _instigator;
+    private bool _hasTriggered;
+
+    // Наследники получают величину урона без прямого доступа к полю.
+    protected float Damage => _damage;
 
     public override void _Ready()
     {
-        // Подписываемся на столкновения только для контактной атаки.
-        if (_DamageOnContact)
+        _source ??= GetParent();
+        Monitoring = _damageOnContact;
+        BodyEntered += OnBodyEntered;
+    }
+
+    private void OnBodyEntered(Node3D body)
+    {
+        if (_damageOnContact)
         {
-            BodyEntered += OnBodyEntered;
+            ApplyDamage(body);
         }
     }
 
-    // Обрабатывает контактный урон, например атаку Crawler.
-    private void OnBodyEntered(Node3D body)
+    public void SetDamage(float damage)
     {
-        ulong targetId = body.GetInstanceId();
+        _damage = Mathf.Max(0f, damage);
+    }
 
-        // Не наносим урон повторно одной и той же цели.
-        if (_DamagedTargets.Contains(targetId))
+    public void SetTargetGroup(string group)
+    {
+        _targetGroups.Clear();
+        if (!string.IsNullOrEmpty(group))
+        {
+            _targetGroups.Add(group);
+        }
+    }
+
+    // source удаляется после попадания, instigator — стрелявший, которого игнорируем.
+    public void SetSource(Node source, Node instigator = null)
+    {
+        _source = source;
+        _instigator = instigator;
+    }
+
+    // Виртуальный метод позволяет наследникам реализовать взрыв или иной эффект.
+    public virtual bool ApplyDamage(Node target)
+    {
+        if (!TryGetTargetHealth(target, out HealthComponent health))
+        {
+            return false;
+        }
+
+        // QueueFree отложен до конца кадра: блокируем повторный урон сразу.
+        if (_destroySourceAfterHit)
+        {
+            _hasTriggered = true;
+        }
+
+        health.TakeDamage(Damage);
+        CompleteHit();
+        return true;
+    }
+
+    // Общая проверка доступна новым компонентам урона.
+    protected bool CanApplyDamage(Node target)
+    {
+        if (_hasTriggered || IsQueuedForDeletion()
+            || !GodotObject.IsInstanceValid(target) || target.IsQueuedForDeletion()
+            || target == this || target == _source || target == _instigator)
+        {
+            return false;
+        }
+
+        if (GodotObject.IsInstanceValid(_source) && _source.IsQueuedForDeletion())
+        {
+            return false;
+        }
+
+        foreach (string group in _targetGroups)
+        {
+            if (!string.IsNullOrEmpty(group) && target.IsInGroup(group))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected bool TryGetTargetHealth(Node target, out HealthComponent health)
+    {
+        health = null;
+        if (!CanApplyDamage(target))
+        {
+            return false;
+        }
+
+        health = target.GetNodeOrNull<HealthComponent>("HealthComponent");
+        return GodotObject.IsInstanceValid(health) && !health.IsQueuedForDeletion();
+    }
+
+    // Наследники завершают одноразовый эффект после выполнения собственных атак.
+    protected virtual void CompleteHit()
+    {
+        if (!_destroySourceAfterHit)
         {
             return;
         }
 
-        if (ApplyDamage(body))
+        _hasTriggered = true;
+        if (GodotObject.IsInstanceValid(_source))
         {
-            _DamagedTargets.Add(targetId);
+            _source.QueueFree();
         }
-    }
-
-    // Устанавливает урон, переданный пуле из ShootComponent.
-    public void SetDamage(float damage)
-    {
-        _Damage = damage;
-    }
-
-    // Настраивает группу целей, которым компонент может наносить урон.
-    public void SetTargetGroup(string group)
-    {
-        _TargetGroups.Clear();
-        _TargetGroups.Add(group);
-    }
-
-    // Наносит урон объекту, если он входит в разрешённую группу.
-    public bool ApplyDamage(Node target)
-    {
-        if (target == null)
+        else
         {
-            return false;
+            QueueFree();
         }
-
-        // Проверяем принадлежность цели к одной из нужных групп.
-        bool allowedTarget = false;
-
-        foreach (string group in _TargetGroups)
-        {
-            if (target.IsInGroup(group))
-            {
-                allowedTarget = true;
-                break;
-            }
-        }
-
-        if (!allowedTarget)
-        {
-            return false;
-        }
-
-        // Ищем HealthComponent среди непосредственных дочерних узлов.
-        HealthComponent health =
-            target.GetNodeOrNull<HealthComponent>("HealthComponent");
-
-        if (health == null)
-        {
-            GD.PushWarning(
-                $"У объекта {target.Name} не найден HealthComponent."
-            );
-
-            return false;
-        }
-
-        // Передаём компоненту здоровья величину урона.
-        health.TakeDamage(_Damage);
-
-        return true;
     }
 }

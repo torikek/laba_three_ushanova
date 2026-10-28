@@ -60,6 +60,3 @@ metadata/_custom_type_script = "uid://ckj0yi0ufgt1y"
 [node name="ShootComponent" type="Node" parent="." unique_id=1295997427]
 script = ExtResource("3_3li8b")
 metadata/_custom_type_script = "uid://1x66mxrb6jsu"
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1729903751]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.0020795835, 1, 0.16170934)

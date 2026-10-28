@@ -13,16 +13,18 @@ material = SubResource("StandardMaterial3D_2ropf")
 radius = 0.18408203
 height = 0.36816406
 
-[node name="Bullet" type="Area3D" unique_id=1310669387]
+[node name="Bullet" type="Node3D" unique_id=1310669387]
 script = ExtResource("1_hf8mt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1255901863]
 transform = Transform3D(0.33556557, 0, 0, 0, 0.11162049, 0, 0, 0, 0.1414334, 0, 0, 0)
 mesh = SubResource("SphereMesh_yfr1v")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=17597451]
-shape = SubResource("CapsuleShape3D_recie")
-
 [node name="DamagingComponent" type="Area3D" parent="." unique_id=1073285390]
 script = ExtResource("2_p1sfj")
+_damageOnContact = true
+_destroySourceAfterHit = true
 metadata/_custom_type_script = "uid://dbteg5qjylwmw"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=17597451]
+shape = SubResource("CapsuleShape3D_recie")

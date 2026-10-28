@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://ckj0yi0ufgt1y" path="res://components/HealthComponent.cs" id="1_kl3vk"]
 [ext_resource type="Script" uid="uid://1x66mxrb6jsu" path="res://components/ShootComponent.cs" id="3_02lgm"]
 [ext_resource type="Script" uid="uid://dmttguf7c2d4k" path="res://components/VisibilityComponent.cs" id="4_6dv47"]
-[ext_resource type="Script" uid="uid://4882jq4ir2e5" path="res://components/MoveComponent.cs" id="5_6pmem"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yfr1v"]
 height = 2.9074707
@@ -34,7 +33,7 @@ height = 0.8935547
 [sub_resource type="SphereShape3D" id="SphereShape3D_yfr1v"]
 radius = 17.39461
 
-[node name="Tower" type="CharacterBody3D" unique_id=818221630]
+[node name="Tower" type="CharacterBody3D" unique_id=818221630 groups=["allies"]]
 script = ExtResource("1_02lgm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=782759534]
@@ -76,7 +75,3 @@ metadata/_custom_type_script = "uid://1x66mxrb6jsu"
 
 [node name="Muzzel" type="Marker3D" parent="." unique_id=2108335498]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016794801, 1.3351891, 0)
-
-[node name="MoveComponent" type="Node" parent="." unique_id=1969243423]
-script = ExtResource("5_6pmem")
-metadata/_custom_type_script = "uid://4882jq4ir2e5"

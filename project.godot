@@ -28,6 +28,7 @@ project/assembly_name="third_game"
 
 enemies=""
 allies=""
+core=""
 
 [input]
 

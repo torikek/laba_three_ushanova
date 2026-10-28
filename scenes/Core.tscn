@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cy7hkql0jy2rq"]
+
+[ext_resource type="Script" uid="uid://ckj0yi0ufgt1y" path="res://components/HealthComponent.cs" id="1_myllb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_recie"]
+albedo_color = Color(0.8745098, 0.75686276, 0.34509805, 1)
+emission_enabled = true
+emission = Color(1, 0.6862745, 0, 1)
+emission_energy_multiplier = 8.26
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_recie")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yfr1v"]
+
+[node name="Core" type="StaticBody3D" unique_id=1086187683 groups=["allies", "core"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=744694614]
+transform = Transform3D(2.0557332, 0, 0, 0, 1.6104134, 0, 0, 0, 2.2560256, 0, 0, 0)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1245084565]
+transform = Transform3D(2.8186316, 0, 0, 0, 2.8186316, 0, 0, 0, 2.8186316, 0.02552104, 0, 0)
+shape = SubResource("SphereShape3D_yfr1v")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1634406606]
+script = ExtResource("1_myllb")
+MaxHealth = 300.0
+metadata/_custom_type_script = "uid://ckj0yi0ufgt1y"

@@ -1,61 +1,86 @@
 using Godot;
-using System;
 
-
+// Движется к обнаруженной цели, а при её отсутствии — к ядру базы.
 [GlobalClass]
 public partial class MoveComponent : Node
 {
-    protected CharacterBody3D parentNode;
     [Export]
-    protected float Speed {set;get;} = 5f;
+    public float Speed { get; set; } = 5f;
+
     [Export]
-    protected float StopRadius {set;get;} = 100f;
-    protected Node3D Target {set;get;}
+    public float StopRadius { get; set; } = 0.5f;
+
+    private CharacterBody3D _body;
+    private Node3D _target;
+    private Node3D _core;
 
     public override void _Ready()
     {
-        if (GetParent() is CharacterBody3D parentNode) this.parentNode = parentNode;
+        _body = GetParent() as CharacterBody3D;
+        if (_body == null)
+        {
+            GD.PushError("MoveComponent должен быть дочерним узлом CharacterBody3D.");
+        }
     }
 
     public void SetTarget(Node3D target)
     {
-        Target = target;
+        _target = target;
     }
+
     public override void _PhysicsProcess(double delta)
     {
-        if (parentNode == null)
+        if (!IsAvailable(_body))
         {
-            GD.Print("MoveComponent not attached to CharacterBody3D");
             return;
         }
-        else Move(parentNode);
+
+        Node3D destination = GetDestination();
+        if (destination == null)
+        {
+            _body.Velocity = Vector3.Zero;
+            return;
+        }
+
+        Vector3 offset = destination.GlobalPosition - _body.GlobalPosition;
+        offset.Y = 0f;
+
+        float stopRadius = Mathf.Max(0f, StopRadius);
+        if (offset.LengthSquared() <= stopRadius * stopRadius)
+        {
+            _body.Velocity = Vector3.Zero;
+            return;
+        }
+
+        _body.Velocity = offset.Normalized() * Mathf.Max(0f, Speed);
+        _body.MoveAndSlide();
     }
-    protected void Move(CharacterBody3D parentNode)
+
+    private Node3D GetDestination()
     {
-        Vector3 positionDifference;
-        if (Target == null) //если цели нет движемся к центру поля
+        if (IsAvailable(_target))
         {
-            //GD.Print("Target isn't set? moving to screen center");
-            positionDifference = (Vector3.Zero - parentNode.GlobalPosition);
-        }
-        else 
-        {
-            positionDifference = (Target.GlobalPosition - parentNode.GlobalPosition);
+            return _target;
         }
 
-        if (positionDifference.Length() > StopRadius)
+        _target = null;
+
+        // Запасная цель нужна только врагам; союзники без цели стоят на месте.
+        if (!_body.IsInGroup("enemies"))
         {
-            Vector3 direction = positionDifference.Normalized();
-            Vector3 velocity = new Vector3(
-            direction.X * Speed,
-            0f, 
-            direction.Z * Speed
-            );
-            
-            parentNode.Velocity = velocity;
-            parentNode.MoveAndSlide();
+            return null;
         }
 
+        if (!IsAvailable(_core))
+        {
+            _core = GetTree().GetFirstNodeInGroup("core") as Node3D;
+        }
+
+        return IsAvailable(_core) ? _core : null;
     }
 
+    private bool IsAvailable(Node3D node)
+    {
+        return GodotObject.IsInstanceValid(node) && !node.IsQueuedForDeletion();
+    }
 }
