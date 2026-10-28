@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://j275jcmgo447"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_recie"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_recie")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bmg02"]
+albedo_color = Color(1, 0.16078432, 0.16862746, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfr1v"]
+material = SubResource("StandardMaterial3D_bmg02")
+
+[node name="Boom" type="Node3D" unique_id=457874943]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1988975523]
+transform = Transform3D(1.3345029, 0, 0, 0, 0.28908792, 0, 0, 0, 1.2611258, -0.0024898848, 0.6335059, 0.002695051)
+mesh = SubResource("TorusMesh_yfr1v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1409143673]
+transform = Transform3D(1.0033202, 0, 0, 0, 0.28908792, 0, 0, 0, 1.0368893, -0.0024898848, 0.07801813, 0.002695051)
+mesh = SubResource("TorusMesh_yfr1v")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=429690612]
+transform = Transform3D(1.0033202, 0, 0, 0, 0.28908792, 0, 0, 0, 1.0368893, -0.0024898848, 1.1564767, 0.002695051)
+mesh = SubResource("TorusMesh_yfr1v")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1616528243]
+transform = Transform3D(0.51856905, 0, 0, 0, 0.5000245, 0, 0, 0, 0.45527634, -0.4276378, 1.5154705, 1.4548545)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="." unique_id=2077623840]
+transform = Transform3D(0.51856905, 0, 0, 0, 0.5000245, 0, 0, 0, 0.45527634, -1.6106584, 0.46097487, -0.34480366)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1515548684]
+transform = Transform3D(0.51856905, 0, 0, 0, 0.5000245, 0, 0, 0, 0.45527634, 1.2595831, 0.9011724, 0.031928107)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=669020064]
+transform = Transform3D(0.51856905, 0, 0, 0, 0.5000245, 0, 0, 0, 0.45527634, 0.040546943, 0.8090459, -1.596171)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=1563288404]
+transform = Transform3D(0.21383572, 0, 0, 0, 0.2151208, 0, 0, 0, 0.18302348, 0.040546943, 1.5985684, -1.0697125)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=599268508]
+transform = Transform3D(0.21383572, 0, 0, 0, 0.2151208, 0, 0, 0, 0.18302348, 1.1055917, 0.64847636, -1.0697125)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="." unique_id=900644003]
+transform = Transform3D(0.21383572, 0, 0, 0, 0.2151208, 0, 0, 0, 0.18302348, 1.1055917, 0.96860176, 1.2360011)
+mesh = SubResource("SphereMesh_yfr1v")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="." unique_id=681344861]
+transform = Transform3D(0.21383572, 0, 0, 0, 0.2151208, 0, 0, 0, 0.18302348, -1.4242156, 1.3152763, 1.2360011)
+mesh = SubResource("SphereMesh_yfr1v")

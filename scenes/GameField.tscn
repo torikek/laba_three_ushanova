@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://yjnkyddb37gl"]
 
 [ext_resource type="PackedScene" uid="uid://bt2qefmbx3igm" path="res://scenes/EnemyTower.tscn" id="1_2pk6w"]
-[ext_resource type="Script" uid="uid://xbfgbfkt26b3" path="res://scenes/GameManager.cs" id="1_vw3tx"]
+[ext_resource type="Script" uid="uid://xbfgbfkt26b3" path="res://scripts/GameManager.cs" id="1_vw3tx"]
 [ext_resource type="PackedScene" uid="uid://0iv4hld3571" path="res://scenes/Tower.tscn" id="2_hcwga"]
 [ext_resource type="PackedScene" uid="uid://pi00vt55ub5q" path="res://scenes/Player.tscn" id="3_l06dd"]
 [ext_resource type="PackedScene" uid="uid://cy7hkql0jy2rq" path="res://scenes/Core.tscn" id="4_4e7eh"]
+[ext_resource type="PackedScene" uid="uid://cr7inq7t3pbsv" path="res://scenes/FreezeTower.tscn" id="4_dryr3"]
 [ext_resource type="PackedScene" uid="uid://buhk8tua5nhog" path="res://scenes/Crawler.tscn" id="6_sl3ph"]
+[ext_resource type="PackedScene" uid="uid://dcqf6yfta8bki" path="res://scenes/BoomTower.tscn" id="8_np2u7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2pk6w"]
 albedo_color = Color(1.3235956e-06, 0.5362356, 0.29885167, 1)
@@ -55,17 +57,14 @@ transform = Transform3D(-0.9995599, 0.013790133, -0.026266329, -0.020218028, 0.3
 current = true
 fov = 90.45598
 
-[node name="Tower" parent="." unique_id=818221630 instance=ExtResource("2_hcwga")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.237197, 1.9073486e-06, -11.132607)
-
 [node name="Tower4" parent="." unique_id=654033614 instance=ExtResource("2_hcwga")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.903241, 0, -11.081488)
 
 [node name="Tower2" parent="." unique_id=1628924491 instance=ExtResource("2_hcwga")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5264843, 0, -6.914021)
 
-[node name="Tower3" parent="." unique_id=714541956 instance=ExtResource("2_hcwga")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3418322, 0, -6.5950418)
+[node name="FreezeTower" parent="." unique_id=258201661 instance=ExtResource("4_dryr3")]
+transform = Transform3D(-0.10814828, 0, 0.9941348, 0, 1, 0, -0.9941348, 0, -0.10814828, 2.4019039, 0, -6.7412615)
 
 [node name="Player" parent="." unique_id=2130547119 instance=ExtResource("3_l06dd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.4174385, 0, -6.7128)
@@ -115,3 +114,6 @@ transform = Transform3D(-0.058754247, 0, -0.9982725, 0, 1, 0, 0.9982725, 0, -0.0
 
 [node name="Crawler2" parent="." unique_id=800558469 instance=ExtResource("6_sl3ph")]
 transform = Transform3D(0.15208195, 0, 0.9883679, 0, 1, 0, -0.9883679, 0, 0.15208195, -14.239181, -9.536743e-07, -7.5907946)
+
+[node name="BoomTower" parent="." unique_id=832079404 instance=ExtResource("8_np2u7")]
+transform = Transform3D(0.25881907, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, 0.25881907, -6.6485925, 0, -10.213501)

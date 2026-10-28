@@ -25,5 +25,4 @@ shape = SubResource("SphereShape3D_yfr1v")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1634406606]
 script = ExtResource("1_myllb")
-MaxHealth = 300.0
 metadata/_custom_type_script = "uid://ckj0yi0ufgt1y"

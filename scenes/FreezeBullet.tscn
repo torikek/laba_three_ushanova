@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dkkgpukn6qwsp"]
+
+[ext_resource type="Script" uid="uid://b4ldo6xbg15ba" path="res://components/FreezeComponent.cs" id="1_gdfae"]
+[ext_resource type="Script" uid="uid://clnc32lwk2ww" path="res://scripts/Bullet.cs" id="1_ou4hq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2r082"]
+albedo_color = Color(7.70092e-07, 0.45421666, 0.57894915, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yqnhw"]
+material = SubResource("StandardMaterial3D_2r082")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rmy50"]
+radius = 0.17822266
+height = 0.3564453
+
+[node name="FreezeBullet" type="Node3D" unique_id=96093404]
+script = ExtResource("1_ou4hq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1839524618]
+transform = Transform3D(0.33556557, 0, 0, 0, 0.11162049, 0, 0, 0, 0.1414334, 0, 0, 0)
+mesh = SubResource("SphereMesh_yqnhw")
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=1734981069]
+script = ExtResource("1_gdfae")
+_damageOnContact = true
+metadata/_custom_type_script = "uid://dbteg5qjylwmw"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=354647337]
+shape = SubResource("CapsuleShape3D_rmy50")

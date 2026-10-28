@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dwk6i631k5ak3"]
+
+[ext_resource type="Script" uid="uid://clnc32lwk2ww" path="res://scripts/Bullet.cs" id="1_4icil"]
+[ext_resource type="Script" uid="uid://bhf37f401ppdx" path="res://components/BoomComponent.cs" id="2_4icil"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4icil"]
+albedo_color = Color(0.6988576, 0.19268975, 0.3463986, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_asml8"]
+material = SubResource("StandardMaterial3D_4icil")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7hgll"]
+radius = 0.17822266
+height = 0.3564453
+
+[node name="BoomBullet" type="Node3D" unique_id=1607710425]
+script = ExtResource("1_4icil")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=691992147]
+transform = Transform3D(0.33556557, 0, 0, 0, 0.11162049, 0, 0, 0, 0.1414334, 0, 0, 0)
+mesh = SubResource("SphereMesh_asml8")
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=1524211619]
+script = ExtResource("2_4icil")
+_damageOnContact = true
+metadata/_custom_type_script = "uid://dbteg5qjylwmw"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=551781076]
+shape = SubResource("CapsuleShape3D_7hgll")
