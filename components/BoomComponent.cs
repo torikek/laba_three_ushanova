@@ -7,8 +7,8 @@ public partial class BoomComponent : DamagingComponent
     [Export]
     private PackedScene _boomScene = GD.Load<PackedScene>("res://scenes/Boom.tscn");
 
-    [Export(PropertyHint.Range, "0.1,10,0.1")]
-    private float _boomDuration = 1f;
+    [Export(PropertyHint.Range, "0.1,10,0.1")] // мин длительность, макс длительность, шаг
+    private float _boomDuration = 1f; //длительность взрыва в секундах
 
     private bool _hasHit;
 
@@ -17,7 +17,7 @@ public partial class BoomComponent : DamagingComponent
     {
         if (_hasHit || !TryGetTargetHealth(target, out HealthComponent health)
             || !target.IsInGroup("enemies")
-            || health.IsDead || target is not Node3D body)
+            || health.IsDead || target is not Node3D body) 
         {
             return false;
         }

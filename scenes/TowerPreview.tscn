@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://yk8fr0dsx6t6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r80xj"]
+transparency = 1
+albedo_color = Color(0.5764706, 0.99607843, 0.64705884, 0.15686275)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vy1w4"]
+material = SubResource("StandardMaterial3D_r80xj")
+top_radius = 0.15
+height = 1.1494141
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72cul"]
+transparency = 1
+albedo_color = Color(0.5529412, 0.7764706, 0.62352943, 0.15686275)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hm55x"]
+material = SubResource("StandardMaterial3D_72cul")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8xait"]
+transparency = 1
+albedo_color = Color(0.4, 0.5803922, 0.49803922, 0.15686275)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sjyh8"]
+material = SubResource("StandardMaterial3D_8xait")
+radius = 0.44677734
+height = 0.8935547
+
+[node name="TowerPreview" type="Node3D" unique_id=1517880353]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1593351165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5413771, 0)
+mesh = SubResource("CylinderMesh_vy1w4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=22409695]
+transform = Transform3D(0.47835162, 0, 0, 0, 0.481627, 0, 0, 0, 0.55100155, 0, 1.3121138, 0)
+mesh = SubResource("SphereMesh_hm55x")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=427280498]
+transform = Transform3D(-6.867321e-09, 0.85326374, 0, -0.157106, -3.729734e-08, 0, 0, 0, 0.17921287, 0.43131733, 1.3006212, 0)
+mesh = SubResource("CapsuleMesh_sjyh8")
+
+[node name="Muzzel" type="Marker3D" parent="." unique_id=1776240293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016794801, 1.3351891, 0)
