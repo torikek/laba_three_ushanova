@@ -8,7 +8,8 @@ public partial class GameManager : Node3D
     public enum GameState // Состояние игры
     {
         Playing,
-        Lost
+        Lost,
+        Won
     }
 
     public GameState State { get; private set; } = GameState.Playing;
@@ -81,7 +82,23 @@ public partial class GameManager : Node3D
 
         GetTree().Paused = true;
     }
+    public void WinGame()
+    {
+        // Завершить можно только продолжающуюся игру.
+        if (State != GameState.Playing)
+        {
+            return;
+        }
 
+        State = GameState.Won;
+
+        _messageLabel.Text =
+            "Победа!\nВсе волны отражены. Ядро спасено!";
+
+        _gameOverPanel.Show();
+
+        GetTree().Paused = true;
+    }
     public void RestartGame() // Перезапускает текущую сцену
     {
         GetTree().Paused = false;
